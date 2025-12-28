@@ -7,27 +7,21 @@ const items = [
     //title ja desc sotkee mobilen
     image: 'https://picsum.photos/300/300?grayscale',
     link: 'https://timilindblom.com',
-    title: 'Item 1',
-    description: 'This is pretty cool, right?'
+    title: 'Migraine app',
+    description: 'Junction 2025 migraine app ai detection'
   },
   {
     image: 'https://picsum.photos/400/400?grayscale',
     link: 'https://timilindblom.com',
-    title: 'Item 2',
-    description: 'This is pretty cool, right?'
+    title: 'Bike app',
+    description: 'App to track your bikes'
   },
   {
     image: 'https://picsum.photos/500/500?grayscale',
     link: 'https://timilindblom.com',
-    title: 'Item 3',
-    description: 'This is pretty cool, right?'
+    title: 'CS50: Movie review site',
+    description: 'Final Project for cs50 using Ombd api calls to get movies. Review possibility and saving to database.'
   },
-  {
-    image: 'https://picsum.photos/600/600?grayscale',
-    link: 'https://timilindblom.com',
-    title: 'Item 4',
-    description: 'This is pretty cool, right?'
-  }
 ];
 
 
@@ -73,7 +67,7 @@ export default function Home() {
 
         <div className='flex items-center pt-50 w-full'>
 
-          <div className='flex items-center max-w-3xl ml-[40%] -translate-x-1/2'>
+          <div className='flex items-center justify-center gap-20 max-w-5xl mx-auto'>
             <div className='w-96'>
               <h2 className="text-xl font-medium text-white">I'm Timi Lindblom.</h2>
               <Typewriter
@@ -82,6 +76,14 @@ export default function Home() {
                 loop={true}
                 className="text-xl font-medium text-white"
               />
+              <div className="flex gap-4 mt-6">
+                <a href="https://linkedin.com/in/timi-lindblom-034604278" target="_blank" rel="noopener noreferrer" className="group">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="w-8 h-8 transition-transform group-hover:scale-110" />
+                </a>
+                <a href="https://github.com/tlgz" target="_blank" rel="noopener noreferrer" className="group">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" className="w-8 h-8 bg-white rounded-full p-0.5 transition-transform group-hover:scale-110" />
+                </a>
+              </div>
             </div>
 
             <img
@@ -92,20 +94,77 @@ export default function Home() {
               height={300}
             />
 
+
+
           </div>
 
         </div>
-        <section id="about">
-          <h1 className=" text-2xl font-bold text-white mt-8 text-center">About me</h1>
-          <a className="text-white text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer diam ligula, lobortis sit amet porttitor in, maximus non risus. Phasellus tincidunt augue leo, non congue massa dapibus aliquet. In blandit, dui vitae porttitor faucibus, neque metus rhoncus dui, at aliquam dui odio in urna. In aliquam id ex cursus fringilla. Curabitur euismod, massa quis tincidunt efficitur, libero metus dictum mi, eu vulputate arcu ligula eu lectus. Vivamus ut tellus non risus dapibus cursus. Aenean vitae ligula ut arcu tincidunt feugiat. Morbi non odio pretium, sagittis nisl nec, venenatis sapien. Morbi venenatis blandit turpis volutpat pharetra. Curabitur enim arcu, fermentum quis diam egestas, tempor lacinia urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent gravida id augue at hendrerit. Duis egestas urna vitae pulvinar elementum. Mauris quis sapien urna.
+        <section id="about" className="relative z-10 py-20 px-4 flex flex-col items-center justify-center">
+          <div className="max-w-4xl w-full">
+            <h1 className="text-4xl font-bold text-white mb-10 text-center tracking-tight">About me</h1>
 
-            Integer blandit feugiat nisi, vel facilisis ligula placerat eget. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean sodales, dui at vulputate sagittis, purus ante ultrices neque, id interdum felis purus a mi. Quisque a est rhoncus lectus tincidunt vestibulum. Sed luctus metus eu est sollicitudin iaculis nec id mi. Fusce a ante lectus. Aliquam erat volutpat. Quisque euismod faucibus mauris, at tempus mauris commodo in. Vestibulum id erat in ipsum lacinia interdum. In sollicitudin, ante non vulputate varius, neque turpis rhoncus arcu, id tincidunt nisl velit nec turpis. Aliquam luctus vulputate magna a sodales. Duis eu eleifend diam, ut rhoncus quam. In non faucibus ex. Vivamus fringilla elit eu enim volutpat, tempus sollicitudin nibh eleifend.
+            <div className="relative p-8 md:p-10 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl ring-1 ring-white/5 shadow-2xl">
+              <div className="space-y-6 text-slate-300 leading-relaxed text-lg font-light">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer diam ligula, lobortis sit amet porttitor in, maximus non risus. Phasellus tincidunt augue leo, non congue massa dapibus aliquet. In blandit, dui vitae porttitor faucibus, neque metus rhoncus dui, at aliquam dui odio in urna. In aliquam id ex cursus fringilla. Curabitur euismod, massa quis tincidunt efficitur, libero metus dictum mi, eu vulputate arcu ligula eu lectus.
+                </p>
 
-            Donec a sem tortor. Phasellus eget neque at mauris eleifend dictum. Vivamus magna metus, tincidunt ac gravida a, placerat vitae arcu. Suspendisse lacinia congue varius. Nulla vel nisl mi. Aliquam nec varius ex, eu semper velit. Proin egestas ipsum ipsum, sit amet posuere tellus accumsan vel. Mauris vitae aliquet arcu. Vivamus eu tempus risus, eu vestibulum tellus. Proin quis nisl eget nisi varius porttitor. Phasellus orci nibh, cursus nec sem eget, vestibulum mattis elit. Phasellus imperdiet fringilla ultrices. Fusce ac facilisis ante. Donec eget lectus scelerisque, hendrerit dolor in, cursus ipsum. Morbi consectetur viverra purus, a sodales orci condimentum vel.
+                <p>
+                  Vivamus ut tellus non risus dapibus cursus. Aenean vitae ligula ut arcu tincidunt feugiat. Morbi non odio pretium, sagittis nisl nec, venenatis sapien. Morbi venenatis blandit turpis volutpat pharetra. Curabitur enim arcu, fermentum quis diam egestas, tempor lacinia urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent gravida id augue at hendrerit.
+                </p>
 
-            Nam posuere sem eu magna blandit porta. Curabitur et lacus ornare, sagittis dui dictum, suscipit turpis. Morbi sollicitudin bibendum nisl ac semper. Curabitur ut leo a metus posuere mattis. Phasellus aliquam orci turpis, nec congue dolor rhoncus a. Praesent porta maximus velit, sed dapibus arcu fermentum in. Vivamus congue felis ac tincidunt pretium. Quisque eget massa volutpat, lobortis arcu sit amet, efficitur magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                <p>
+                  Donec a sem tortor. Phasellus eget neque at mauris eleifend dictum. Vivamus magna metus, tincidunt ac gravida a, placerat vitae arcu. Suspendisse lacinia congue varius. Nulla vel nisl mi. Aliquam nec varius ex, eu semper velit. Proin egestas ipsum ipsum, sit amet posuere tellus accumsan vel. Mauris vitae aliquet arcu. Vivamus eu tempus risus, eu vestibulum tellus.
+                </p>
 
-            Mauris eleifend, leo eu semper mattis, quam elit euismod mi, sit amet egestas leo ipsum ac ante. Vestibulum egestas sagittis iaculis. Mauris feugiat, felis et sodales blandit, mi lorem mollis augue, bibendum laoreet nulla dolor quis quam. Aenean libero tellus, aliquam eget nunc quis, porta facilisis sem. Etiam ultricies nisi a mattis auctor. Aenean euismod lacus a orci malesuada, at consectetur orci facilisis. Etiam laoreet elementum risus eget sodales. Proin semper sem vitae blandit imperdiet. Integer pulvinar turpis in egestas ornare. Duis vitae facilisis felis, ac posuere neque. Duis eget tempor enim, ut finibus erat. Vestibulum porttitor mattis sapien, vitae tristique neque laoreet vel. Maecenas tincidunt tortor nec elementum consequat.</a>
+                <p>
+                  Mauris eleifend, leo eu semper mattis, quam elit euismod mi, sit amet egestas leo ipsum ac ante. Vestibulum egestas sagittis iaculis. Mauris feugiat, felis et sodales blandit, mi lorem mollis augue, bibendum laoreet nulla dolor quis quam. Aenean libero tellus, aliquam eget nunc quis, porta facilisis sem.
+                </p>
+
+                <div className="pt-8">
+                  <h3 className="text-xl font-semibold text-white mb-6">Technologies</h3>
+                  <div className="flex flex-wrap gap-8 items-center justify-start">
+                    <a href="https://react.dev/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">React</span>
+                    </a>
+                    <a href="https://nodejs.org/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">Node.js</span>
+                    </a>
+                    <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">Python</span>
+                    </a>
+                    <a href="https://www.scala-lang.org/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scala/scala-original.svg" alt="Scala" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">Scala</span>
+                    </a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">JavaScript</span>
+                    </a>
+                    <a href="https://github.com/tlgz" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" className="w-12 h-12 bg-white rounded-full p-0.5 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
+                    </a>
+                    <a href="https://scikit-learn.org/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="Scikit-learn" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">Scikit-learn</span>
+                    </a>
+                    <a href="https://www.mysql.com/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">MySQL</span>
+                    </a>
+                    <a href="https://www.mongodb.com/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
+                      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB" className="w-12 h-12 transition-transform group-hover:scale-110" />
+                      <span className="text-xs text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">MongoDB</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
         <section id="projects">
           <h1 className=" text-2xl font-bold text-white mt-8 text-center">Projects</h1>
@@ -115,6 +174,6 @@ export default function Home() {
         </section>
 
       </main>
-    </div>
+    </div >
   );
 }
