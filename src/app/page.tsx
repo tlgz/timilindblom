@@ -112,6 +112,7 @@ export default function Home() {
                 <p>
                   My technical background is demonstrated through a variety of projects in my GitHub repository, where I have focused on full-stack development and algorithmic logic. I have experience building functional web applications using modern frameworks, managing both front-end user interfaces and back-end logic. These projects highlight my ability to translate abstract requirements into working code and my dedication to maintaining high standards in version control and documentation. You can have a look at them in the Projects section.
                 </p>
+                <p>Currently, I am expanding my expertise by working with the AMD Kria KV260 Vision AI Starter Kit, developing a real-time drone detection system using YOLOv5 with using FPGA and DPU. Alongside this practical hardware integration, I am self-studying the foundations of machine learning from scratch, primarily utilizing the textbook "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow". This combination of deep-diving into neural networks and hands-on edge computing allows me to bridge the gap between academic theory and professional-grade AI implementation.</p>
 
                 <p>
                   My goal is to find my first professional IT role where I can utilize
