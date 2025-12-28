@@ -40,10 +40,10 @@ export default function Home() {
             <a href="https://timilindblom.com">
               <img
                 className=""
-                src="/next.svg"
+                src="/timi-logo.svg"
                 alt="Timi"
-                width={40}
-                height={40}
+                width={30}
+                height={30}
               />
             </a>
             <div className="flex items-center gap-4 md:gap-6 md:ml-7">
@@ -110,7 +110,7 @@ export default function Home() {
                 </p>
 
                 <p>
-                 My technical background is demonstrated through a variety of projects in my GitHub repository, where I have focused on full-stack development and algorithmic logic. I have experience building functional web applications using modern frameworks, managing both front-end user interfaces and back-end logic. These projects highlight my ability to translate abstract requirements into working code and my dedication to maintaining high standards in version control and documentation. You can have a look at them in the Projects section.
+                  My technical background is demonstrated through a variety of projects in my GitHub repository, where I have focused on full-stack development and algorithmic logic. I have experience building functional web applications using modern frameworks, managing both front-end user interfaces and back-end logic. These projects highlight my ability to translate abstract requirements into working code and my dedication to maintaining high standards in version control and documentation. You can have a look at them in the Projects section.
                 </p>
 
                 <p>
