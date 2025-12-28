@@ -106,19 +106,20 @@ export default function Home() {
             <div className="relative p-8 md:p-10 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl ring-1 ring-white/5 shadow-2xl">
               <div className="space-y-6 text-slate-300 leading-relaxed text-lg font-light">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer diam ligula, lobortis sit amet porttitor in, maximus non risus. Phasellus tincidunt augue leo, non congue massa dapibus aliquet. In blandit, dui vitae porttitor faucibus, neque metus rhoncus dui, at aliquam dui odio in urna. In aliquam id ex cursus fringilla. Curabitur euismod, massa quis tincidunt efficitur, libero metus dictum mi, eu vulputate arcu ligula eu lectus.
+                  I am a Computer Science student at Aalto University. I am an ambitious problem-solver who views programming as a strategic tool for building and optimizing complex systems.
                 </p>
 
                 <p>
-                  Vivamus ut tellus non risus dapibus cursus. Aenean vitae ligula ut arcu tincidunt feugiat. Morbi non odio pretium, sagittis nisl nec, venenatis sapien. Morbi venenatis blandit turpis volutpat pharetra. Curabitur enim arcu, fermentum quis diam egestas, tempor lacinia urna. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent gravida id augue at hendrerit.
+                 My technical background is demonstrated through a variety of projects in my GitHub repository, where I have focused on full-stack development and algorithmic logic. I have experience building functional web applications using modern frameworks, managing both front-end user interfaces and back-end logic. These projects highlight my ability to translate abstract requirements into working code and my dedication to maintaining high standards in version control and documentation. You can have a look at them in the Projects section.
                 </p>
 
                 <p>
-                  Donec a sem tortor. Phasellus eget neque at mauris eleifend dictum. Vivamus magna metus, tincidunt ac gravida a, placerat vitae arcu. Suspendisse lacinia congue varius. Nulla vel nisl mi. Aliquam nec varius ex, eu semper velit. Proin egestas ipsum ipsum, sit amet posuere tellus accumsan vel. Mauris vitae aliquet arcu. Vivamus eu tempus risus, eu vestibulum tellus.
-                </p>
-
-                <p>
-                  Mauris eleifend, leo eu semper mattis, quam elit euismod mi, sit amet egestas leo ipsum ac ante. Vestibulum egestas sagittis iaculis. Mauris feugiat, felis et sodales blandit, mi lorem mollis augue, bibendum laoreet nulla dolor quis quam. Aenean libero tellus, aliquam eget nunc quis, porta facilisis sem.
+                  My goal is to find my first professional IT role where I can utilize
+                  my extensive hobby-based expertise. I am accustomed to
+                  independent information seeking and rapid adoption of new
+                  technologies through my personal projects. I now wish to solidify
+                  my skills as part of a professional organization and take on
+                  responsibilities in demanding software development tasks.
                 </p>
 
                 <div className="pt-8">
