@@ -77,7 +77,7 @@ export default function Home() {
                 className="text-xl font-medium text-white"
               />
               <div className="flex gap-4 mt-6">
-                <a href="https://linkedin.com/in/timi-lindblom-034604278" target="_blank" rel="noopener noreferrer" className="group">
+                <a href="https://linkedin.com/in/timi-lindblom" target="_blank" rel="noopener noreferrer" className="group">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="w-8 h-8 transition-transform group-hover:scale-110" />
                 </a>
                 <a href="https://github.com/tlgz" target="_blank" rel="noopener noreferrer" className="group">
