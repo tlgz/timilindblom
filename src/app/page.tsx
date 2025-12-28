@@ -65,10 +65,10 @@ export default function Home() {
           </div>
         </nav>
 
-        <div className='flex items-center pt-50 w-full'>
+        <div className='flex items-center pt-32 md:pt-48 w-full'>
 
-          <div className='flex items-center justify-center gap-20 max-w-5xl mx-auto'>
-            <div className='w-96'>
+          <div className='flex flex-col-reverse md:flex-row items-center justify-center gap-10 md:gap-20 max-w-5xl mx-auto px-4'>
+            <div className='w-full md:w-96 text-center md:text-left'>
               <h2 className="text-xl font-medium text-white">I'm Timi Lindblom.</h2>
               <Typewriter
                 text={["Developer", "CS Student", "Ambitious"]}
@@ -76,7 +76,7 @@ export default function Home() {
                 loop={true}
                 className="text-xl font-medium text-white"
               />
-              <div className="flex gap-4 mt-6">
+              <div className="flex gap-4 mt-6 justify-center md:justify-start">
                 <a href="https://linkedin.com/in/timi-lindblom" target="_blank" rel="noopener noreferrer" className="group">
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" className="w-8 h-8 transition-transform group-hover:scale-110" />
                 </a>
@@ -87,7 +87,7 @@ export default function Home() {
             </div>
 
             <img
-              className=""
+              className="object-cover"
               src="/timi-bw.PNG"
               alt="Timi"
               width={300}
