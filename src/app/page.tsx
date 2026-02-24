@@ -58,9 +58,11 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-4 md:ml-10">
-              <button className="bg-white hover:shadow-[0px_0px_30px_7px] shadow-[0px_0px_30px_3px] hover:shadow-white/50 shadow-white/50 text-black px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-100 transition duration-300">
-                Contact
-              </button>
+              <a href="https://linkedin.com/in/timi-lindblom" target="_blank" rel="noopener noreferrer">
+                <button className="bg-white hover:shadow-[0px_0px_30px_7px] shadow-[0px_0px_30px_3px] hover:shadow-white/50 shadow-white/50 text-black px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-100 transition duration-300">
+                  Contact
+                </button>
+              </a>
             </div>
           </div>
         </nav>
