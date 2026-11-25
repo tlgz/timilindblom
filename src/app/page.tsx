@@ -1,5 +1,5 @@
 import { Typewriter } from "@/components/ui/typewriter-text"
-import DarkVeil from '@/components/DarkVeil';
+import Particles from '@/components/Particles';
 import InfiniteMenu from '@/components/InfiniteMenu'
 
 const items = [
@@ -30,12 +30,22 @@ export default function Home() {
   return (
     <div className="">
       {/* background */}
-      <div className="fixed inset-0 w-full h-full z-0">
-        <DarkVeil hueShift={380} />
+      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none">
+        <Particles
+          particleColors={['#ffffff']}
+          particleCount={200}
+          particleSpread={10}
+          speed={0.1}
+          particleBaseSize={100}
+          glow={0.5}
+          twinkle={0.3}
+          moveParticlesOnHover
+          hoverEffect="parallax"
+        />
       </div>
 
-      <main className="min-h-screen min-w-screen relative z-10">
-        <nav className="flex w-screen justify-center pt-8 fixed z-50">
+      <main className="min-h-screen w-full relative z-10">
+        <nav className="flex w-full justify-center pt-8 fixed z-50">
           <div className="flex flex-wrap items-center justify-center border mx-4 px-6 py-4 rounded-full text-white text-sm gap-4">
             <a href="https://timilindblom.com">
               <img

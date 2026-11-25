@@ -504,27 +504,65 @@ class ArcballControl {
   private readonly EPSILON = 0.1;
   private readonly IDENTITY_QUAT = quat.create();
 
+  private onPointerDown: (e: PointerEvent) => void;
+  private onPointerUp: (e: PointerEvent) => void;
+  private onPointerLeave: () => void;
+  private onPointerMove: (e: PointerEvent) => void;
+
   constructor(canvas: HTMLCanvasElement, updateCallback?: UpdateCallback) {
     this.canvas = canvas;
     this.updateCallback = updateCallback || (() => undefined);
 
-    canvas.addEventListener('pointerdown', (e: PointerEvent) => {
-      vec2.set(this.pointerPos, e.clientX, e.clientY);
+    const getCanvasPos = (e: PointerEvent): [number, number] => {
+      const rect = this.canvas.getBoundingClientRect();
+      return [e.clientX - rect.left, e.clientY - rect.top];
+    };
+
+    this.onPointerDown = (e: PointerEvent) => {
+      const [x, y] = getCanvasPos(e);
+      vec2.set(this.pointerPos, x, y);
       vec2.copy(this.previousPointerPos, this.pointerPos);
       this.isPointerDown = true;
-    });
-    canvas.addEventListener('pointerup', () => {
-      this.isPointerDown = false;
-    });
-    canvas.addEventListener('pointerleave', () => {
-      this.isPointerDown = false;
-    });
-    canvas.addEventListener('pointermove', (e: PointerEvent) => {
-      if (this.isPointerDown) {
-        vec2.set(this.pointerPos, e.clientX, e.clientY);
+      try {
+        canvas.setPointerCapture(e.pointerId);
+      } catch {
+        // Ignore if pointer capture is unavailable
       }
-    });
+    };
+    this.onPointerUp = (e: PointerEvent) => {
+      this.isPointerDown = false;
+      try {
+        if (canvas.hasPointerCapture(e.pointerId)) {
+          canvas.releasePointerCapture(e.pointerId);
+        }
+      } catch {
+        // Ignore if pointer capture is unavailable
+      }
+    };
+    this.onPointerLeave = () => {
+      this.isPointerDown = false;
+    };
+    this.onPointerMove = (e: PointerEvent) => {
+      if (this.isPointerDown) {
+        const [x, y] = getCanvasPos(e);
+        vec2.set(this.pointerPos, x, y);
+      }
+    };
+
+    canvas.addEventListener('pointerdown', this.onPointerDown);
+    canvas.addEventListener('pointerup', this.onPointerUp);
+    canvas.addEventListener('pointercancel', this.onPointerUp);
+    canvas.addEventListener('pointerleave', this.onPointerLeave);
+    canvas.addEventListener('pointermove', this.onPointerMove);
     canvas.style.touchAction = 'none';
+  }
+
+  public destroy(): void {
+    this.canvas.removeEventListener('pointerdown', this.onPointerDown);
+    this.canvas.removeEventListener('pointerup', this.onPointerUp);
+    this.canvas.removeEventListener('pointercancel', this.onPointerUp);
+    this.canvas.removeEventListener('pointerleave', this.onPointerLeave);
+    this.canvas.removeEventListener('pointermove', this.onPointerMove);
   }
 
   public update(deltaTime: number, targetFrameDuration = 16): void {
@@ -701,6 +739,8 @@ class InfiniteGridMenu {
   private _frames = 0;
 
   private movementActive = false;
+  private rafId = 0;
+  private destroyed = false;
 
   private TARGET_FRAME_DURATION = 1000 / 60;
   private SPHERE_RADIUS = 2;
@@ -743,6 +783,7 @@ class InfiniteGridMenu {
   }
 
   public run(time = 0): void {
+    if (this.destroyed) return;
     this._deltaTime = Math.min(32, time - this._time);
     this._time = time;
     this._deltaFrames = this._deltaTime / this.TARGET_FRAME_DURATION;
@@ -751,13 +792,23 @@ class InfiniteGridMenu {
     this.animate(this._deltaTime);
     this.render();
 
-    requestAnimationFrame(t => this.run(t));
+    this.rafId = requestAnimationFrame(t => this.run(t));
+  }
+
+  public destroy(): void {
+    this.destroyed = true;
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = 0;
+    }
+    this.control?.destroy();
   }
 
   private init(onInit?: InitCallback): void {
     const gl = this.canvas.getContext('webgl2', {
       antialias: true,
-      alpha: false
+      alpha: true,
+      premultipliedAlpha: false
     });
     if (!gl) {
       throw new Error('No WebGL 2 context!');
@@ -924,6 +975,8 @@ class InfiniteGridMenu {
     gl.useProgram(this.discProgram);
     gl.enable(gl.CULL_FACE);
     gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -1087,6 +1140,7 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      sketch?.destroy();
     };
   }, [items]);
 
@@ -1112,6 +1166,7 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           <h2
             className={`
           select-none
+          pointer-events-none
           absolute
           font-black
           text-white
@@ -1122,8 +1177,8 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           transition-all
           ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
           ${isMoving
-                ? 'opacity-0 pointer-events-none duration-[100ms]'
-                : 'opacity-100 pointer-events-auto duration-[500ms]'
+                ? 'opacity-0 duration-[100ms]'
+                : 'opacity-100 duration-[500ms]'
               }
         `}
           >
@@ -1133,6 +1188,7 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           <p
             className={`
           select-none
+          pointer-events-none
           absolute
           max-w-[30ch]
           text-white
@@ -1144,8 +1200,8 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
           transition-all
           ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
           ${isMoving
-                ? 'opacity-0 pointer-events-none duration-[100ms]'
-                : 'opacity-100 pointer-events-auto duration-[500ms]'
+                ? 'opacity-0 duration-[100ms]'
+                : 'opacity-100 duration-[500ms]'
               }
         `}
           >
