@@ -2,6 +2,7 @@
 
 import { FC, useRef, useState, useEffect, MutableRefObject } from 'react';
 import { mat4, quat, vec2, vec3 } from 'gl-matrix';
+import { ArrowUpRight } from 'lucide-react';
 
 const discVertShaderSource = `#version 300 es
 
@@ -1048,7 +1049,7 @@ class InfiniteGridMenu {
   private onControlUpdate(deltaTime: number): void {
     const timeScale = deltaTime / this.TARGET_FRAME_DURATION + 0.0001;
     let damping = 5 / timeScale;
-    let cameraTargetZ = 3;
+    let cameraTargetZ = 3.25;
 
     const isMoving = this.control.isPointerDown || Math.abs(this.smoothRotationVelocity) > 0.01;
 
@@ -1154,87 +1155,51 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
   };
 
   return (
-    <div className="relative w-full h-full">
-      <canvas
-        id="infinite-grid-menu-canvas"
-        ref={canvasRef}
-        className="cursor-grab w-full h-full overflow-hidden relative outline-none active:cursor-grabbing"
-      />
+    <div className="w-full rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl ring-1 ring-white/5 shadow-2xl overflow-hidden flex flex-col">
+      <div className="relative w-full h-[300px] sm:h-[380px] md:h-[440px]">
+        <span className="pointer-events-none select-none absolute top-3 right-3 sm:top-4 sm:right-4 z-10 text-[11px] sm:text-xs tracking-wide text-slate-400 bg-black/50 backdrop-blur-md border border-white/10 px-2.5 py-1 sm:px-3 rounded-full">
+          Drag to rotate
+        </span>
+        <canvas
+          id="infinite-grid-menu-canvas"
+          ref={canvasRef}
+          className="cursor-grab w-full h-full overflow-hidden relative outline-none active:cursor-grabbing"
+          style={{
+            maskImage: 'radial-gradient(ellipse 72% 72% at 50% 50%, black 46%, transparent 96%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 72% 72% at 50% 50%, black 46%, transparent 96%)'
+          }}
+        />
+      </div>
 
-      {activeItem && (
-        <>
-          <h2
-            className={`
-          select-none
-          pointer-events-none
-          absolute
-          font-black
-          text-white
-          text-[2.5rem]
-          left-1/2
-          -translate-x-1/2
-          top-[10%]
-          transition-all
-          ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
-          ${isMoving
-                ? 'opacity-0 duration-[100ms]'
-                : 'opacity-100 duration-[500ms]'
-              }
-        `}
-          >
-            {activeItem.title}
-          </h2>
-
-          <p
-            className={`
-          select-none
-          pointer-events-none
-          absolute
-          max-w-[30ch]
-          text-white
-          text-[1rem]
-          text-center
-          left-1/2
-          -translate-x-1/2
-          bottom-[15%]
-          transition-all
-          ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
-          ${isMoving
-                ? 'opacity-0 duration-[100ms]'
-                : 'opacity-100 duration-[500ms]'
-              }
-        `}
-          >
-            {activeItem.description}
+      <div className="border-t border-white/10 bg-black/60 px-5 py-5 sm:px-8 sm:py-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 min-h-[108px]">
+        <div
+          className={`transition-opacity duration-200 ${
+            isMoving || !activeItem ? 'opacity-40' : 'opacity-100'
+          }`}
+        >
+          <h3 className="text-lg sm:text-2xl font-semibold tracking-tight text-white">
+            {activeItem?.title ?? 'Select a project'}
+          </h3>
+          <p className="text-sm sm:text-base text-slate-400 mt-1 max-w-xl leading-relaxed">
+            {activeItem?.description ?? 'Drag the sphere above to browse projects.'}
           </p>
+        </div>
 
-          <div
-            onClick={handleButtonClick}
-            className={`
-          absolute
-          left-1/2
-          z-10
-          w-[60px]
-          h-[60px]
-          grid
-          place-items-center
-          bg-[#00ffff]
-          border-[5px]
-          border-black
-          rounded-full
-          cursor-pointer
-          transition-all
-          ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
-          ${isMoving
-                ? 'bottom-[-80px] opacity-0 pointer-events-none duration-[100ms] scale-0 -translate-x-1/2'
-                : 'bottom-[1.5em] opacity-100 pointer-events-auto duration-[500ms] scale-100 -translate-x-1/2'
-              }
-        `}
-          >
-            <p className="select-none relative text-[#060010] top-[2px] text-[26px]">&#x2197;</p>
-          </div>
-        </>
-      )}
+        <button
+          type="button"
+          onClick={handleButtonClick}
+          disabled={!activeItem?.link}
+          title={activeItem?.link ? 'Open project repository' : 'No public repository available'}
+          className={`w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
+            activeItem?.link
+              ? 'bg-white text-black hover:bg-slate-200 active:scale-[0.98] cursor-pointer'
+              : 'bg-white/10 text-slate-500 border border-white/10 cursor-not-allowed'
+          }`}
+        >
+          <span>View project</span>
+          <ArrowUpRight className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 };
