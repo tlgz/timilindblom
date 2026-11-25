@@ -509,18 +509,29 @@ class ArcballControl {
   private onPointerUp: (e: PointerEvent) => void;
   private onPointerLeave: () => void;
   private onPointerMove: (e: PointerEvent) => void;
+  private onTouchStart: (e: TouchEvent) => void;
+  private onTouchMove: (e: TouchEvent) => void;
+  private onTouchEnd: (e: TouchEvent) => void;
 
   constructor(canvas: HTMLCanvasElement, updateCallback?: UpdateCallback) {
     this.canvas = canvas;
     this.updateCallback = updateCallback || (() => undefined);
 
-    const getCanvasPos = (e: PointerEvent): [number, number] => {
+    const getCanvasPos = (clientX: number, clientY: number): [number, number] => {
       const rect = this.canvas.getBoundingClientRect();
-      return [e.clientX - rect.left, e.clientY - rect.top];
+      return [clientX - rect.left, clientY - rect.top];
     };
 
+    const getTwoFingerMidpoint = (touches: TouchList): [number, number] => {
+      const midX = (touches[0].clientX + touches[1].clientX) * 0.5;
+      const midY = (touches[0].clientY + touches[1].clientY) * 0.5;
+      return getCanvasPos(midX, midY);
+    };
+
+    // Mouse / pen: single-pointer drag
     this.onPointerDown = (e: PointerEvent) => {
-      const [x, y] = getCanvasPos(e);
+      if (e.pointerType === 'touch') return;
+      const [x, y] = getCanvasPos(e.clientX, e.clientY);
       vec2.set(this.pointerPos, x, y);
       vec2.copy(this.previousPointerPos, this.pointerPos);
       this.isPointerDown = true;
@@ -531,6 +542,7 @@ class ArcballControl {
       }
     };
     this.onPointerUp = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return;
       this.isPointerDown = false;
       try {
         if (canvas.hasPointerCapture(e.pointerId)) {
@@ -544,9 +556,43 @@ class ArcballControl {
       this.isPointerDown = false;
     };
     this.onPointerMove = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') return;
       if (this.isPointerDown) {
-        const [x, y] = getCanvasPos(e);
+        const [x, y] = getCanvasPos(e.clientX, e.clientY);
         vec2.set(this.pointerPos, x, y);
+      }
+    };
+
+    // Touch (mobile): require 2 fingers to rotate so 1 finger scrolls the page
+    this.onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length >= 2) {
+        e.preventDefault();
+        const [x, y] = getTwoFingerMidpoint(e.touches);
+        vec2.set(this.pointerPos, x, y);
+        vec2.copy(this.previousPointerPos, this.pointerPos);
+        this.isPointerDown = true;
+      } else {
+        this.isPointerDown = false;
+      }
+    };
+    this.onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length >= 2) {
+        e.preventDefault();
+        const [x, y] = getTwoFingerMidpoint(e.touches);
+        if (!this.isPointerDown) {
+          vec2.set(this.pointerPos, x, y);
+          vec2.copy(this.previousPointerPos, this.pointerPos);
+          this.isPointerDown = true;
+        } else {
+          vec2.set(this.pointerPos, x, y);
+        }
+      } else if (this.isPointerDown) {
+        this.isPointerDown = false;
+      }
+    };
+    this.onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) {
+        this.isPointerDown = false;
       }
     };
 
@@ -555,7 +601,11 @@ class ArcballControl {
     canvas.addEventListener('pointercancel', this.onPointerUp);
     canvas.addEventListener('pointerleave', this.onPointerLeave);
     canvas.addEventListener('pointermove', this.onPointerMove);
-    canvas.style.touchAction = 'none';
+    canvas.addEventListener('touchstart', this.onTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', this.onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', this.onTouchEnd);
+    canvas.addEventListener('touchcancel', this.onTouchEnd);
+    canvas.style.touchAction = 'pan-y';
   }
 
   public destroy(): void {
@@ -564,6 +614,10 @@ class ArcballControl {
     this.canvas.removeEventListener('pointercancel', this.onPointerUp);
     this.canvas.removeEventListener('pointerleave', this.onPointerLeave);
     this.canvas.removeEventListener('pointermove', this.onPointerMove);
+    this.canvas.removeEventListener('touchstart', this.onTouchStart);
+    this.canvas.removeEventListener('touchmove', this.onTouchMove);
+    this.canvas.removeEventListener('touchend', this.onTouchEnd);
+    this.canvas.removeEventListener('touchcancel', this.onTouchEnd);
   }
 
   public update(deltaTime: number, targetFrameDuration = 16): void {
@@ -1158,7 +1212,8 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
     <div className="w-full rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl ring-1 ring-white/5 shadow-2xl overflow-hidden flex flex-col">
       <div className="relative w-full h-[300px] sm:h-[380px] md:h-[440px]">
         <span className="pointer-events-none select-none absolute top-3 right-3 sm:top-4 sm:right-4 z-10 text-[11px] sm:text-xs tracking-wide text-slate-400 bg-black/50 backdrop-blur-md border border-white/10 px-2.5 py-1 sm:px-3 rounded-full">
-          Drag to rotate
+          <span className="md:hidden">Two fingers to rotate</span>
+          <span className="hidden md:inline">Drag to rotate</span>
         </span>
         <canvas
           id="infinite-grid-menu-canvas"
