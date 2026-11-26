@@ -136,10 +136,12 @@ vec3 bob(vec4 r, float t) {
 }
 
 void main() {
-  vec3 pos = aPosition * uSpread;
-  pos.z *= ${DEPTH.toFixed(1)};
+  vec3 rotated = uRotation * (aPosition * uSpread);
+  rotated.x *= max(1.0, uAspect * 1.15);
+  rotated.y *= 1.25;
+  rotated.z *= ${DEPTH.toFixed(1)};
   vec3 wobble = bob(aRandom, uTime);
-  vec3 world = uRotation * pos + uOffset + wobble;
+  vec3 world = rotated + uOffset + wobble;
   float edge = 1.0;
   if (uDrift == 1 || uDrift == 2) {
     float span = uSpread * 2.0 + 3.0;
@@ -606,7 +608,7 @@ const Particles = ({
       for (let i = 0; i < total; i++) {
         const px = cloud.positions[i * 3] * s.spread;
         const py = cloud.positions[i * 3 + 1] * s.spread;
-        const pz = cloud.positions[i * 3 + 2] * s.spread * DEPTH;
+        const pz = cloud.positions[i * 3 + 2] * s.spread;
         const r0 = cloud.randoms[i * 4];
         const r1 = cloud.randoms[i * 4 + 1];
         const r2 = cloud.randoms[i * 4 + 2];
@@ -614,9 +616,12 @@ const Particles = ({
         const bobX = Math.sin(time * r2 + 6.28 * r3) * (0.1 + 1.4 * r0);
         const bobY = Math.sin(time * r1 + 6.28 * r0) * (0.1 + 1.4 * r3);
         const bobZ = Math.sin(time * r3 + 6.28 * r1) * (0.1 + 1.4 * r2);
-        const wx = matrix[0] * px + matrix[3] * py + matrix[6] * pz + ox + bobX;
-        let wy = matrix[1] * px + matrix[4] * py + matrix[7] * pz + oy + bobY;
-        let wz = matrix[2] * px + matrix[5] * py + matrix[8] * pz + oz + bobZ;
+        const rx = (matrix[0] * px + matrix[3] * py + matrix[6] * pz) * Math.max(1, aspect * 1.15);
+        const ry = (matrix[1] * px + matrix[4] * py + matrix[7] * pz) * 1.25;
+        const rz = (matrix[2] * px + matrix[5] * py + matrix[8] * pz) * DEPTH;
+        const wx = rx + ox + bobX;
+        let wy = ry + oy + bobY;
+        let wz = rz + oz + bobZ;
         let edge = 1;
         if (s.drift === 1 || s.drift === 2) {
           const k = wrap(r3 * spanY + oy + bobY + (s.drift === 1 ? state.travel : -state.travel), spanY);
@@ -885,8 +890,12 @@ const Particles = ({
     };
 
     const onVisibility = () => {
-      last = 0;
-      wake();
+      if (document.hidden) {
+        pointer.inside = false;
+      } else {
+        last = 0;
+        resize();
+      }
     };
 
     const resizeObserver = new ResizeObserver(resize);
@@ -903,6 +912,7 @@ const Particles = ({
     window.addEventListener('pointerdown', onPointerDown, { passive: true });
     window.addEventListener('pointerup', onPointerUp, { passive: true });
     window.addEventListener('pointercancel', onPointerUp, { passive: true });
+    window.addEventListener('blur', onPointerLeave);
     document.documentElement.addEventListener('pointerleave', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
     resize();
@@ -928,6 +938,7 @@ const Particles = ({
       window.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('pointercancel', onPointerUp);
+      window.removeEventListener('blur', onPointerLeave);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
       gl.deleteProgram(dots.program);

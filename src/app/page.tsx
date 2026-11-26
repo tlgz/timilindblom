@@ -54,6 +54,7 @@ export default function Home() {
           twinkle={0.3}
           moveParticlesOnHover
           hoverEffect="parallax"
+          clickBurst
         />
       </div>
 
